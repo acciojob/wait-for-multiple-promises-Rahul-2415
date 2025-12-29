@@ -1,4 +1,3 @@
-//your JS code here. If required.
 
 
 const output = document.getElementById("output");
@@ -13,28 +12,33 @@ output.appendChild(loadingRow);
 
 
 function createPromise() {
-  const delay = Math.random() * 2 + 1; 
+  
+  const time = Math.floor(Math.random() * 3) + 1;
 
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(delay);
-    }, delay * 1000);
+      resolve(time);
+    }, time * 1000);
   });
 }
 
 
-const p1 = createPromise();
-const p2 = createPromise();
-const p3 = createPromise();
+const promise1 = createPromise();
+const promise2 = createPromise();
+const promise3 = createPromise();
 
 
-Promise.all([p1, p2, p3]).then((times) => {
+Promise.all([promise1, promise2, promise3]).then((times) => {
   
   output.innerHTML = "";
 
   let maxTime = 0;
 
   times.forEach((time, index) => {
+    if (time > maxTime) {
+      maxTime = time;
+    }
+
     const row = document.createElement("tr");
 
     const nameCell = document.createElement("td");
@@ -45,11 +49,8 @@ Promise.all([p1, p2, p3]).then((times) => {
 
     row.appendChild(nameCell);
     row.appendChild(timeCell);
-    output.appendChild(row);
 
-    if (time > maxTime) {
-      maxTime = time;
-    }
+    output.appendChild(row);
   });
 
   
@@ -63,5 +64,6 @@ Promise.all([p1, p2, p3]).then((times) => {
 
   totalRow.appendChild(totalName);
   totalRow.appendChild(totalTime);
+
   output.appendChild(totalRow);
 });
